@@ -1,26 +1,28 @@
-use bevy_ecs_ldtk::{app::LdtkEntityAppExt, LdtkPlugin, LdtkWorldBundle, LevelSelection};
-use LudumDare57::{
-    game::{map::TownBundle, GamePlugin},
-    prelude::*,
-};
+use bevy_ecs_ldtk::{LdtkPlugin, LdtkWorldBundle, LevelSelection};
+use rand::{rngs::StdRng, SeedableRng};
+use LudumDare57::prelude::*;
 
 fn main() {
     App::new()
-        .add_plugins(DefaultPlugins.set(WindowPlugin {
-            primary_window: Some(Window {
-                title: "Signs of Corruption: The Deep Ones".to_string(),
-                resolution: (948., 533.).into(),
-                fit_canvas_to_parent: false,
-                prevent_default_event_handling: true,
-                canvas: Some("#bevy".to_owned()),
-                ..Default::default()
-            }),
-            ..default()
-        }))
+        .add_plugins(
+            DefaultPlugins
+                .set(ImagePlugin::default_linear())
+                .set(WindowPlugin {
+                    primary_window: Some(Window {
+                        title: "Signs of Corruption: The Deep Ones".to_string(),
+                        resolution: (948., 533.).into(),
+                        fit_canvas_to_parent: false,
+                        prevent_default_event_handling: true,
+                        canvas: Some("#bevy".to_owned()),
+                        ..Default::default()
+                    }),
+                    ..default()
+                }),
+        )
         .init_state::<GameState>()
-        .add_plugins(LdtkPlugin)
-        .register_ldtk_entity::<TownBundle>("Town")
+        .add_plugins((LdtkPlugin, HaalkaPlugin, DebugUiPlugin))
         .insert_resource(LevelSelection::index(0))
+        .insert_resource(TownGenerationRand(StdRng::from_os_rng()))
         .add_plugins(GamePlugin)
         .add_systems(Startup, spawn_debug_world)
         .add_systems(Update, move_camera)
