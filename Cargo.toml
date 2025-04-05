@@ -1,0 +1,20 @@
+[package]
+name = "LudumDare57"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bevy = { version = "0.15.3", features = ["file_watcher", "bevy_dev_tools"] }
+bevy_common_assets = { version = "0.12", features = ["ron"] }
+# tnua
+bevy-tnua = { path = "../bevy-tnua" }
+bevy-tnua-physics-integration-layer = { path = "../bevy-tnua/physics-integration-layer" }
+bevy-tnua-rapier2d = { path = "../bevy-tnua/rapier2d" }
+# rapier
+bevy_rapier2d = "0.29.0"
+# spine
+bevy_spine = { git = "https://github.com/seurimas/bevy_spine.git" }
+rusty_spine = "0.8"
+derive-new = "0.7"
+behavior-bark = { path = "../behavior-bark", features = ["serde", "bevy"] }
+serde = { version = "1.0", features = ["derive"] }
