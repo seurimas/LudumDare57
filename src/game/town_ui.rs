@@ -55,13 +55,28 @@ fn title_card(town_name: &str) -> impl Element {
 }
 
 fn town_controls() -> impl Element {
-    El::<Node>::new()
+    Grid::<Node>::new()
         .width(Val::Percent(100.))
         .height(Val::Auto)
+        .background_color(BackgroundColor(Color::srgb(0., 1., 0.)))
         .align_content(Align::center())
-        .child(
+        .with_node(|mut node| node.grid_template_columns = vec![GridTrack::fr(1.); 2])
+        .cell(
             El::<Text>::new()
-                .text(Text::new("Controls"))
+                .width(Val::Percent(100.))
+                .height(Val::Percent(100.))
+                .background_color(BackgroundColor(Color::srgb(0., 0., 1.)))
+                .text_layout(TextLayout::new_with_justify(JustifyText::Center))
+                .text(Text::new("Left"))
+                .text_color(TextColor(Color::WHITE)),
+        )
+        .cell(
+            El::<Text>::new()
+                .width(Val::Percent(100.))
+                .height(Val::Percent(100.))
+                .background_color(BackgroundColor(Color::srgb(1., 0., 0.)))
+                .text_layout(TextLayout::new_with_justify(JustifyText::Center))
+                .text(Text::new("Right"))
                 .text_color(TextColor(Color::WHITE)),
         )
 }
